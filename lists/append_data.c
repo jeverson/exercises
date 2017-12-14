@@ -15,6 +15,7 @@ void print_node(node* node);
 node* get_last_item(node* head);
 int get_length(node* head);
 node* get_nth(node* head, int n);
+int pop(node** head);
 
 int main() {
     printf("Hello World!\n");
@@ -106,4 +107,19 @@ node* get_last_item(node* head) {
         current = current->next;
     }
     return current;
+}
+
+int pop(node** headRef) {
+    assert(headRef != NULL);
+    if (*headRef != NULL) {
+        node* head = (*headRef)->next;        
+        int data = (*headRef)->data;
+
+        (*headRef)->next = NULL;      
+        *headRef = head;
+
+        printf("popping: %d\n", data);
+        return data;
+    }
+    return 0;
 }
