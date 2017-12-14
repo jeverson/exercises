@@ -15,13 +15,13 @@ void print_node(node* node);
 node* get_last_item(node* head);
 int get_length(node* head);
 node* get_nth(node* head, int n);
-int pop(node** head);
-void insert_nth(node** head, int n, int data);
-void sorted_insert(node** head, int n);
+int pop(node** headRef);
+void insert_nth(node** headRef, int n, int data);
+void sorted_insert(node** headRef, int data);
 
 int main() {
     printf("Hello World!\n");
-
+  
     node* head = create_node(10);
     append_data(&head, 20);
     append_data(&head, 30);
@@ -35,7 +35,14 @@ int main() {
     print_list(head);
     insert_nth(&head, 1, 15);
     insert_nth(&head, 1, 13);
-    insert_nth(&head, 0, 4);
+    insert_nth(&head, 0, 4);    
+    print_list(head);
+
+    sorted_insert(&head, 33);
+    sorted_insert(&head, 13);
+    sorted_insert(&head, 3);
+    sorted_insert(&head, 41);
+    sorted_insert(&head, 20);
     print_list(head);
 
     return 0;
@@ -148,7 +155,8 @@ void insert_nth(node** headRef, int n, int data) {
     int p = 1;
 
     // n < length : insert it at the middle of the list
-    while (p < n) {
+    // n > length : append to the list
+    while (p < n && next != NULL) {
         prev = next;
         next = next->next;
         p++;
@@ -156,11 +164,32 @@ void insert_nth(node** headRef, int n, int data) {
 
     node* newNode = create_node(data);
     prev->next = newNode;
-    newNode->next = next;
-
-    // n > length : append to the list
+    newNode->next = next;    
 
 }
-void sorted_insert(node** headRef, int n) {
 
+void sorted_insert(node** headRef, int data) {
+    assert(headRef != NULL);
+
+    if (*headRef == NULL || (*headRef)->data > data) 
+    {
+        node* newNode = create_node(data);
+        newNode->next = *headRef;
+        *headRef = newNode;
+        return;
+    }
+
+    node* prev = NULL;
+    node* current = *headRef;
+
+    while (current != NULL && current->data < data) {
+      prev = current;
+      current = current->next;
+    }
+  
+    node* newNode = create_node(data);
+    if (prev != NULL) {
+        prev->next = newNode;
+    }
+    newNode->next = current;
 }
