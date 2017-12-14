@@ -171,14 +171,6 @@ void insert_nth(node** headRef, int n, int data) {
 void sorted_insert(node** headRef, int data) {
     assert(headRef != NULL);
 
-    if (*headRef == NULL || (*headRef)->data > data) 
-    {
-        node* newNode = create_node(data);
-        newNode->next = *headRef;
-        *headRef = newNode;
-        return;
-    }
-
     node* prev = NULL;
     node* current = *headRef;
 
@@ -188,8 +180,12 @@ void sorted_insert(node** headRef, int data) {
     }
   
     node* newNode = create_node(data);
+    newNode->next = current;
     if (prev != NULL) {
         prev->next = newNode;
     }
-    newNode->next = current;
+    else {
+      *headRef = newNode;
+    }
+    
 }
