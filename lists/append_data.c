@@ -16,12 +16,13 @@ node* get_last_item(node* head);
 int get_length(node* head);
 node* get_nth(node* head, int n);
 int pop(node** head);
+void insert_nth(node** head, int n, int data);
+void sorted_insert(node** head, int n);
 
 int main() {
     printf("Hello World!\n");
 
     node* head = create_node(10);
-    get_length(head);
     append_data(&head, 20);
     append_data(&head, 30);
     append_data(&head, 40);
@@ -31,6 +32,10 @@ int main() {
     get_nth(head, 3);
     get_nth(head, 5);
     printf("head %d\n", head->data);    
+    print_list(head);
+    insert_nth(&head, 1, 15);
+    insert_nth(&head, 1, 13);
+    insert_nth(&head, 0, 4);
     print_list(head);
 
     return 0;
@@ -76,7 +81,7 @@ node* get_nth(node* head, int n) {
         head = head->next;
         p++;
     }    
-    printf("getting node at %d position\n", n);
+    printf("getting node at position %d\n", n);
     print_node(head);
     return head;
 }
@@ -122,4 +127,40 @@ int pop(node** headRef) {
         return data;
     }
     return 0;
+}
+
+void insert_nth(node** headRef, int n, int data) {
+    assert(headRef != NULL);
+    assert(n >= 0);
+
+    // possible cases (will write each case first time)
+    // head is null : create new node and make it the new head pointing to null
+    // n == 0 : create new node, make it new head and get it pointing to current head
+    if (*headRef == NULL || n == 0) {
+        node* head = create_node(data);
+        head->next = *headRef;
+        *headRef = head;
+        return;
+    }
+
+    node* prev = *headRef;
+    node* next = (*headRef)->next;
+    int p = 1;
+
+    // n < length : insert it at the middle of the list
+    while (p < n) {
+        prev = next;
+        next = next->next;
+        p++;
+    }
+
+    node* newNode = create_node(data);
+    prev->next = newNode;
+    newNode->next = next;
+
+    // n > length : append to the list
+
+}
+void sorted_insert(node** headRef, int n) {
+
 }
