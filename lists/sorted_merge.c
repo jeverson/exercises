@@ -67,39 +67,39 @@ node* sorted_merge(node* a, node* b) {
         return a;
     }
 
-    node* first = a;
-    node* second = b;
-    if (a->data > b->data) {
-        first = b;
-        second = a;
-    }    
+    node* head;
+    if (a->data < b->data) {
+        head = a;
+        a = a->next;
+    }   
+    else 
+    {
+        head = b;
+        b = b->next;
+    } 
+    head->next = NULL;
 
-    node* merged_head = first;
-    first = first->next;
-    
-    node* merged = merged_head;
-    while (first != NULL || second != NULL) {
+    node* curr = head;
+    while (a != NULL && b != NULL) {
 
-      if (first == NULL) {
-          merged->next = second;
-          second = second->next;      
-      }  
-      else if (second == NULL) {  
-        merged->next = first;
-        first = first->next;
-      }
-      else if (first->data < second->data) {
-        merged->next = first;
-        first = first->next;        
-      }
-      else 
-      {
-        merged->next = second;
-        second = second->next;              
-      }
-    
-      merged = merged->next;
+        if (a->data < b->data) {
+            curr->next = a;
+            a = a->next;        
+        } else  {
+            curr->next = b;
+            b = b->next;              
+        }
+
+        curr = curr->next;
         
     }  
-    return merged_head;
+
+    if (a != NULL) {
+        curr->next = a;
+    }  
+    else {  
+        curr->next = b;
+    }
+    
+    return head;
 }
