@@ -66,12 +66,6 @@ void move_node(node** sourceRef, node** destRef) {
     node* head = *sourceRef;
     *sourceRef = head->next;
 
-    if (*destRef == NULL) {
-        head->next = NULL;
-    }
-    else
-    {
-        head->next = *destRef;
-    }
+    head->next = *destRef;
     *destRef = head;
 }
