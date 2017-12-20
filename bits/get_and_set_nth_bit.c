@@ -37,13 +37,13 @@ int set_nth_bit_to_one(int value, int n) {
 }
 
 void print_bits(int value) {
-    int left_pos = sizeof(int) * 8 - 1;
-    int i;    
-    for (i = left_pos; i >= 0; i--) {
-        int check_bit = 1 << i;
+    unsigned int check_bit = 1 << sizeof(int) * 8 - 1;
+    while (check_bit > 0) {
         int check = value & check_bit;
         int bit = (check == check_bit) ? 1: 0;
         printf("%d", bit);
+
+        check_bit = check_bit >> 1;
     }
     printf("\n");
 }
